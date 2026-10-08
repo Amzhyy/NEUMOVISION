@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="lungGlow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#181c22" />
+      <stop offset="70%" stop-color="#0a0c0e" />
+      <stop offset="100%" stop-color="#040506" />
+    </radialGradient>
+
+    <!-- Lung Cavity Shade -->
+    <radialGradient id="lungFieldR" cx="40%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#050608" stop-opacity="0.95" />
+      <stop offset="70%" stop-color="#12151a" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#2a303a" stop-opacity="0.4" />
+    </radialGradient>
+    <radialGradient id="lungFieldL" cx="60%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#050608" stop-opacity="0.95" />
+      <stop offset="70%" stop-color="#12151a" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#2a303a" stop-opacity="0.4" />
+    </radialGradient>
+
+    <!-- Infiltrate / Consolidation Opacity Texture -->
+    <radialGradient id="consolidationOp" cx="38%" cy="66%" r="20%">
+      <stop offset="0%" stop-color="#e8ecf2" stop-opacity="0.85" />
+      <stop offset="45%" stop-color="#bdc5d1" stop-opacity="0.6" />
+      <stop offset="75%" stop-color="#8a94a6" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#181c22" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Cardiac Shadow -->
+    <radialGradient id="heartShadow" cx="54%" cy="58%" r="30%">
+      <stop offset="0%" stop-color="#d9dee8" stop-opacity="0.85" />
+      <stop offset="60%" stop-color="#8c96a8" stop-opacity="0.65" />
+      <stop offset="90%" stop-color="#3b4250" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#141820" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Spine Shadow -->
+    <linearGradient id="spineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#222832" stop-opacity="0.2" />
+      <stop offset="35%" stop-color="#a4b0c2" stop-opacity="0.65" />
+      <stop offset="50%" stop-color="#dfe5f0" stop-opacity="0.85" />
+      <stop offset="65%" stop-color="#a4b0c2" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#222832" stop-opacity="0.2" />
+    </linearGradient>
+
+    <filter id="blurFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" />
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12" />
+    </filter>
+  </defs>
+
+  <!-- Deep Black DICOM Radiograph Background -->
+  <rect width="800" height="800" fill="url(#lungGlow)" />
+
+  <!-- Thoracic Silhouette Outer Soft Border -->
+  <path d="M 230,120 Q 400,100 570,120 Q 670,220 680,480 Q 690,620 610,690 Q 400,740 190,690 Q 110,620 120,480 Q 130,220 230,120 Z" fill="#1b2028" opacity="0.35" filter="url(#softGlow)" />
+
+  <!-- Trachea / Air Column -->
+  <rect x="388" y="90" width="24" height="150" rx="6" fill="#080a0d" opacity="0.9" />
+
+  <!-- Right & Left Lung Cavities -->
+  <!-- Right Hemithorax (Anatomical Right = Image Left) -->
+  <path d="M 370,150 C 310,140 230,190 195,270 C 165,340 160,430 170,540 C 180,600 205,640 240,655 C 290,670 345,630 370,590 Z" fill="url(#lungFieldR)" />
+  <!-- Left Hemithorax (Anatomical Left = Image Right) -->
+  <path d="M 430,150 C 490,140 570,190 605,270 C 635,340 640,430 630,540 C 620,605 580,650 540,655 C 475,665 440,620 430,560 Z" fill="url(#lungFieldL)" />
+
+  <!-- Spine / Vertebral Column -->
+  <rect x="375" y="100" width="50" height="580" fill="url(#spineGrad)" opacity="0.55" rx="4" />
+  <!-- Vertebral Discs Pattern -->
+  <g stroke="#ffffff" stroke-width="1.5" opacity="0.3">
+    <line x1="380" y1="170" x2="420" y2="170" /><line x1="380" y1="205" x2="420" y2="205" />
+    <line x1="380" y1="240" x2="420" y2="240" /><line x1="380" y1="275" x2="420" y2="275" />
+    <line x1="380" y1="310" x2="420" y2="310" /><line x1="380" y1="345" x2="420" y2="345" />
+    <line x1="380" y1="380" x2="420" y2="380" /><line x1="380" y1="415" x2="420" y2="415" />
+    <line x1="380" y1="450" x2="420" y2="450" /><line x1="380" y1="485" x2="420" y2="485" />
+    <line x1="380" y1="520" x2="420" y2="520" /><line x1="380" y1="555" x2="420" y2="555" />
+    <line x1="380" y1="590" x2="420" y2="590" /><line x1="380" y1="625" x2="420" y2="625" />
+  </g>
+
+  <!-- Clavicles -->
+  <g stroke="#cfd7e6" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.75" filter="url(#blurFilter)">
+    <!-- Right Clavicle (Left) -->
+    <path d="M 385,150 Q 280,140 180,165" />
+    <!-- Left Clavicle (Right) -->
+    <path d="M 415,150 Q 520,140 620,165" />
+  </g>
+
+  <!-- Rib Cage Arcs (Anterior & Posterior Ribs) -->
+  <g stroke="#9ab0cc" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.38" filter="url(#blurFilter)">
+    <!-- Posterior Ribs Right (Left) -->
+    <path d="M 380,210 Q 260,200 175,260" />
+    <path d="M 380,250 Q 250,240 165,310" />
+    <path d="M 380,295 Q 240,285 160,365" />
+    <path d="M 380,345 Q 235,335 160,425" />
+    <path d="M 380,400 Q 235,390 165,490" />
+    <path d="M 380,460 Q 240,450 175,550" />
+    <path d="M 380,520 Q 250,510 195,605" />
+    <path d="M 380,580 Q 270,570 230,640" />
+
+    <!-- Posterior Ribs Left (Right) -->
+    <path d="M 420,210 Q 540,200 625,260" />
+    <path d="M 420,250 Q 550,240 635,310" />
+    <path d="M 420,295 Q 560,285 640,365" />
+    <path d="M 420,345 Q 565,335 640,425" />
+    <path d="M 420,400 Q 565,390 635,490" />
+    <path d="M 420,460 Q 560,450 625,550" />
+    <path d="M 420,520 Q 550,510 605,605" />
+    <path d="M 420,580 Q 530,570 570,640" />
+  </g>
+
+  <!-- Bronchovascular Markings (Hilar Vessels Tree) -->
+  <g stroke="#bccae0" stroke-width="2.5" fill="none" opacity="0.32" stroke-linecap="round">
+    <path d="M 360,330 Q 300,310 240,280" />
+    <path d="M 360,340 Q 280,350 220,380" />
+    <path d="M 360,360 Q 290,410 240,470" />
+    <path d="M 360,370 Q 310,460 290,540" />
+    <path d="M 440,340 Q 500,310 560,270" />
+    <path d="M 440,350 Q 520,360 580,390" />
+    <path d="M 440,370 Q 510,420 560,480" />
+    <path d="M 440,380 Q 490,460 510,540" />
+  </g>
+
+  <!-- Mediastinum & Cardiac Silhouette (Heart shifted to anatomical left) -->
+  <!-- Aortic Knob & Pulmonary Artery Segment -->
+  <path d="M 400,240 C 435,245 455,270 450,295 C 445,315 435,325 435,340 C 435,360 480,410 510,480 C 535,535 520,585 470,610 C 430,625 385,610 360,590 C 340,540 345,460 365,380 C 375,340 375,290 385,250 Z" fill="url(#heartShadow)" filter="url(#blurFilter)" />
+
+  <!-- Diaphragm Domes -->
+  <!-- Right Hemidiaphragm (Higher) -->
+  <path d="M 160,570 C 200,530 290,520 380,560 L 380,680 L 160,680 Z" fill="#b0bccd" opacity="0.7" filter="url(#blurFilter)" />
+  <!-- Left Hemidiaphragm (Lower) -->
+  <path d="M 420,570 C 480,540 560,550 630,595 L 630,680 L 420,680 Z" fill="#9eacbf" opacity="0.65" filter="url(#blurFilter)" />
+
+  <!-- ABNORMAL CONSOLIDATION: Right Lower Lobe Alveolar Opacity with Bronchogram (Neumonía bacteriana) -->
+  <ellipse cx="305" cy="510" rx="95" ry="75" fill="url(#consolidationOp)" filter="url(#blurFilter)" />
+  <circle cx="280" cy="530" r="55" fill="#f0f4fa" opacity="0.45" filter="url(#blurFilter)" />
+  <!-- Air Bronchogram Lines (Dark branching air streaks inside white consolidated lung) -->
+  <g stroke="#090b0e" stroke-width="2.5" fill="none" opacity="0.85" stroke-linecap="round">
+    <path d="M 330,470 Q 300,510 270,545" />
+    <path d="M 295,515 Q 265,525 245,550" />
+    <path d="M 310,490 Q 320,525 315,560" />
+  </g>
+
+  <!-- Costophrenic Angles -->
+  <!-- Right CP angle: slightly effused/infiltrated -->
+  <!-- Left CP angle: crisp and sharp -->
+  <path d="M 615,580 L 635,620 L 600,615" fill="#141820" opacity="0.9" />
+
+  <!-- DICOM Technical Metadata Overlays (Hospital Radiography HUD) -->
+  <!-- Top Left -->
+  <g fill="#e2e8f0" font-family="'SF Mono', 'Roboto Mono', 'Courier New', monospace" font-size="13" opacity="0.88">
+    <text x="32" y="44" font-weight="700">Patient ID: CXR-0041 (PX-0142)</text>
+    <text x="32" y="66" fill="#94a3b8">DOB: 12/04/1965 | AGE: 58Y | SEX: M</text>
+    <text x="32" y="88" fill="#38bdf8" font-weight="600">PNEUMONET CAD-e INFERENCIA</text>
+    <text x="32" y="108" fill="#94a3b8">INST: HOSP. UNIV. CENTRAL [SALA 6]</text>
+  </g>
+
+  <!-- Top Right -->
+  <g fill="#e2e8f0" font-family="'SF Mono', 'Roboto Mono', 'Courier New', monospace" font-size="13" text-anchor="end" opacity="0.88">
+    <text x="768" y="44" font-weight="700" font-size="16">PA</text>
+    <text x="768" y="66">PROYECCIÓN: PA ERECT</text>
+    <text x="768" y="88" fill="#94a3b8">kVp: 120 | mA: 4.5 | ms: 12</text>
+    <text x="768" y="108" fill="#94a3b8">ROT: 0.00° | SID: 180cm</text>
+  </g>
+
+  <!-- Bottom Left -->
+  <g fill="#94a3b8" font-family="'SF Mono', 'Roboto Mono', 'Courier New', monospace" font-size="12" opacity="0.85">
+    <text x="32" y="735">W: 255 L: 128 (LUNG PRESET)</text>
+    <text x="32" y="755">BIT DEPTH: 16-bit UNCOMPRESSED</text>
+    <text x="32" y="775">RES: 2048 x 2048 | PIXEL: 0.143mm</text>
+  </g>
+
+  <!-- Bottom Right Anatomical Marker -->
+  <g fill="#e2e8f0" font-family="'SF Mono', 'Roboto Mono', 'Courier New', monospace" font-size="14" text-anchor="end" opacity="0.92">
+    <rect x="670" y="738" width="98" height="28" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="758" y="758" font-weight="700" fill="#f8fafc">R (DERECHA)</text>
+  </g>
+</svg>

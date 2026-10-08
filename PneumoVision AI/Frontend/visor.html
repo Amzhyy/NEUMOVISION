@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PneumoVision AI · Estación de Trabajo y Visor Radiológico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="visor.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+          </div>
+          <span class="brand-text">PneumoVision <span class="ai-badge">AI</span></span>
+        </a>
+
+        <div class="sidebar-section-label">ESTACIÓN DE TRABAJO</div>
+
+        <nav class="sidebar-nav">
+          <a href="dashboard.html" class="nav-item">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+          <a href="nuevo-analisis.html" class="nav-item">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <span>Nuevo análisis</span>
+          </a>
+          <a href="historial.html" class="nav-item">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 3"/></svg>
+            <span>Historial</span>
+          </a>
+          <a href="#" class="nav-item" onclick="alert('Módulo de perfil'); return false;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Perfil</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+          </div>
+          <div class="status-info">
+            <span class="status-title">Motor de Inferencia</span>
+            <span class="status-sub">PACS v4.2 Conectado</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-wrapper">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="pulse-symbol">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#34d399" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+          </span>
+          <div class="console-title">
+            <span class="title-primary">CONSOLA RADIOLÓGICA</span>
+            <span class="title-secondary">Entorno Diagnóstico DICOM</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="online-pill">
+            <span class="green-indicator"></span>
+            <span>Activo</span>
+          </div>
+
+          <div class="user-profile">
+            <div class="user-avatar">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="user-meta">
+              <span class="user-name">Dr. Arismendi</span>
+              <span class="user-role">Radiólogo Clínico</span>
+            </div>
+          </div>
+
+          <a href="LoginFace.html" class="logout-btn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Cerrar sesión</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- VISOR DE ESTACIÓN DE TRABAJO -->
+      <main class="workstation-page">
+
+        <!-- SUB-CABECERA CON ACCIONES DE SALIDA -->
+        <div class="workstation-header">
+          <div class="header-titles">
+            <div class="breadcrumb-trail">
+              <span>Historial</span>
+              <span>/</span>
+              <span>Estudio CXR-0045</span>
+              <span>/</span>
+              <span class="highlight">Visor de Inferencia (AN-9842)</span>
+            </div>
+            <h1 class="main-title">Estación de Trabajo Radiológica</h1>
+            <p class="study-meta">Paciente PX-0142 (M, 58a) • Proyección PA Digital • Inferencia validada PneumoNet-v4.2</p>
+          </div>
+
+          <!-- ACCIONES DE SALIDA -->
+          <div class="header-actions">
+            <button type="button" class="btn-validate" id="btnValidate" onclick="openSignModal()">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              <span id="validateBtnLabel">Validar y firmar</span>
+            </button>
+            <a href="reporte.html?id=AN-9842" class="btn-generate-report">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <span>Generar reporte clínico PDF</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- LAYOUT WORKSTATION: CANVAS RADIOLÓGICO + PANEL DERECHO -->
+        <div class="workstation-grid">
+
+          <!-- ÁREA CENTRAL: CANVAS RADIOLÓGICO -->
+          <section class="radiological-workstation">
+
+            <!-- BARRA SUPERIOR DE CAPAS Y HERRAMIENTAS DICOM -->
+            <div class="canvas-control-bar">
+              
+              <!-- GRUPO 1: TOGGLES DE CAPAS -->
+              <div class="layer-toggles-group">
+                <label class="toggle-pill" id="toggleRoiLabel">
+                  <input type="checkbox" id="roiToggle" checked onchange="toggleRoiLayer(this)">
+                  <span class="custom-chk"></span>
+                  <span class="toggle-text">Cajas ROI</span>
+                </label>
+
+                <label class="toggle-pill active" id="toggleGradcamLabel">
+                  <input type="checkbox" id="gradcamToggle" checked onchange="toggleGradcamLayer(this)">
+                  <span class="custom-chk"></span>
+                  <span class="toggle-text">Grad-CAM</span>
+                </label>
+
+                <!-- SLIDER DE OPACIDAD -->
+                <div class="opacity-slider-container">
+                  <span class="opacity-label">Opacidad:</span>
+                  <input type="range" id="opacitySlider" min="0" max="100" value="85" oninput="updateOpacity(this.value)">
+                  <span class="opacity-value" id="opacityDisplay">85%</span>
+                </div>
+              </div>
+
+              <!-- GRUPO 2: HERRAMIENTAS DICOM -->
+              <div class="dicom-tools-group">
+                <!-- Ventaneo / Preajustes -->
+                <div class="preset-dropdown">
+                  <select id="windowPreset" onchange="applyWindowPreset(this.value)">
+                    <option value="lung">Ventana Pulmonar (W:1500, L:-600)</option>
+                    <option value="mediastinum">Ventana Mediastino (W:350, L:50)</option>
+                    <option value="bone">Ventana Ósea (W:2000, L:300)</option>
+                    <option value="invert">Invertir Escala Grises</option>
+                  </select>
+                </div>
+
+                <!-- Botones Zoom & Pan -->
+                <button type="button" class="dicom-btn" title="Zoom In" onclick="adjustZoom(0.15)">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                </button>
+                <button type="button" class="dicom-btn" title="Zoom Out" onclick="adjustZoom(-0.15)">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                </button>
+                <button type="button" class="dicom-btn" title="Restablecer vista (100%)" onclick="resetCanvasTransform()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                </button>
+                <button type="button" class="dicom-btn" title="Herramienta Medición Caliper" onclick="toggleMeasureTool()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20"/><path d="M6 8v8"/><path d="M12 9v6"/><path d="M18 8v8"/></svg>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- CANVAS RADIOLÓGICO MULTICAPA -->
+            <div class="dicom-canvas-viewport" id="canvasViewport">
+              
+              <!-- CONTENEDOR TRANSFORMABLE CON ZOOM/PAN -->
+              <div class="canvas-layers-stage" id="canvasStage">
+                
+                <!-- CAPA 1: IMAGEN CXR BASE -->
+                <img src="../Public/cxr_chest.svg" alt="Radiografía Base" class="layer-base" id="baseImg">
+
+                <!-- CAPA 2: GRAD-CAM HEATMAP ACTIVATION -->
+                <div class="layer-gradcam" id="gradcamLayer" style="opacity: 0.85;">
+                  <img src="../Public/cxr_gradcam.svg" alt="Mapa Grad-CAM" class="gradcam-img">
+                </div>
+
+                <!-- CAPA 3: ANOTACIONES ROI (BOUNDING BOX INTERACTIVO) -->
+                <div class="layer-roi" id="roiLayer">
+                  <div class="roi-box" style="top: 48%; left: 24%; width: 25%; height: 28%;">
+                    <div class="roi-label-tag">
+                      <span class="roi-focus-dot"></span>
+                      <span>Lóbulo inf. der. (94.2%)</span>
+                    </div>
+                    <div class="roi-corner tl"></div>
+                    <div class="roi-corner tr"></div>
+                    <div class="roi-corner bl"></div>
+                    <div class="roi-corner br"></div>
+                  </div>
+                </div>
+
+                <!-- OVERLAY HUD DICOM (4 ESQUINAS) -->
+                <div class="hud-tag top-left">
+                  <span>PX-0142 | CXR PA DIGITAL</span>
+                  <span>kVp: 120 | mA: 4.5 | ms: 12</span>
+                </div>
+                <div class="hud-tag top-right">
+                  <span>ESTUDIO: AN-9842</span>
+                  <span>HOSPITAL CENTRAL - SALA 6</span>
+                </div>
+                <div class="hud-tag bottom-left">
+                  <span id="windowInfoText">W: 1500 L: -600 (PULMONAR)</span>
+                  <span id="zoomInfoText">ZOOM: 100%</span>
+                </div>
+                <div class="hud-tag bottom-right">
+                  <span>PNEUMONET-v4.2 CAD-e</span>
+                  <span style="color: #34d399;">GRAD-CAM ACTIVO</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- PANEL DERECHO: ESTRATIFICACIÓN DE RIESGO Y HALLAZGOS -->
+          <aside class="risk-stratification-panel">
+
+            <!-- CARD 1: CLASIFICACIÓN DIAGNÓSTICA -->
+            <div class="risk-card">
+              <div class="risk-card-head">
+                <span class="card-caption">CLASIFICACIÓN DIAGNÓSTICA PRIMARIA</span>
+              </div>
+              <h2 class="diagnostic-name">Patrón compatible con neumonía bacteriana</h2>
+              
+              <div class="diagnostic-badges">
+                <span class="diag-badge-red">Consolidación activa</span>
+                <span class="diag-badge-gray">Etiología alveolar lobar</span>
+              </div>
+
+              <!-- BARRA DE CONFIANZA IA -->
+              <div class="confidence-box">
+                <div class="confidence-row">
+                  <span class="confidence-label">Confianza IA (Ensemble Model)</span>
+                  <span class="confidence-val">94.2%</span>
+                </div>
+                <div class="confidence-track">
+                  <div class="confidence-bar" style="width: 94.2%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2: GAUGE / SEMÁFORO DE RIESGO CLÍNICO -->
+            <div class="risk-card">
+              <div class="risk-card-head">
+                <span class="card-caption">INDICADOR DE RIESGO CLÍNICO + TRIAJE</span>
+              </div>
+
+              <div class="gauge-display-row">
+                <!-- SVG CIRCULAR GAUGE METER -->
+                <div class="gauge-circle-container">
+                  <svg viewBox="0 0 100 100" class="gauge-svg">
+                    <circle cx="50" cy="50" r="40" class="gauge-bg-circle" />
+                    <circle cx="50" cy="50" r="40" class="gauge-fill-circle" stroke-dasharray="251.2" stroke-dashoffset="25.1" />
+                  </svg>
+                  <div class="gauge-center-content">
+                    <span class="gauge-score">91%</span>
+                  </div>
+                </div>
+
+                <div class="gauge-meta-col">
+                  <div class="gauge-title-row">
+                    <span class="risk-score-large">91 / 100</span>
+                    <span class="risk-level-tag">Alto Riesgo</span>
+                  </div>
+                  <span class="triage-status-text">Prioridad Nivel 1 • Atención Inmediata</span>
+                </div>
+              </div>
+
+              <!-- ESCALA DE 3 NIVELES (SEMÁFORO) -->
+              <div class="risk-scale-meter">
+                <div class="scale-segment low">
+                  <span class="seg-label">Bajo (0-39)</span>
+                </div>
+                <div class="scale-segment medium">
+                  <span class="seg-label">Moderado (40-69)</span>
+                </div>
+                <div class="scale-segment high active">
+                  <span class="seg-label">Crítico (70-100)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 3: TABLA DE REGIONES ANATÓMICAS DETECTADAS -->
+            <div class="risk-card">
+              <div class="risk-card-head">
+                <span class="card-caption">DESGLOSE DE REGIONES ANATÓMICAS</span>
+              </div>
+
+              <div class="regions-table-box">
+                <table class="regions-table">
+                  <thead>
+                    <tr>
+                      <th>REGIÓN ANATÓMICA</th>
+                      <th>HALLAZGO IDENTIFICADO</th>
+                      <th style="text-align: right;">CERTEZA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="region-name">
+                        <span class="dot-red"></span>
+                        Lóbulo inferior der.
+                      </td>
+                      <td class="finding-desc">Consolidación alveolar densa con broncograma</td>
+                      <td style="text-align: right;">
+                        <span class="badge-critical">94.2%</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="region-name">
+                        <span class="dot-green"></span>
+                        Base pulmonar izq.
+                      </td>
+                      <td class="finding-desc">Infiltrado reticular tenue sin derrame</td>
+                      <td style="text-align: right;">
+                        <span class="badge-negative">24.6%</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="region-name">
+                        <span class="dot-green"></span>
+                        Silueta cardíaca
+                      </td>
+                      <td class="finding-desc">Índice conservado (0.44), mediastino normal</td>
+                      <td style="text-align: right;">
+                        <span class="badge-normal">&lt; 5.0%</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- CARD 4: ASISTENTE CLÍNICO PNEUMOBOT (WIDGET INTEGRADO) -->
+            <div class="pneumobot-widget-card" id="pneumoBotCard">
+              <div class="bot-head">
+                <div class="bot-title-group">
+                  <div class="bot-avatar">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+                  </div>
+                  <div>
+                    <span class="bot-name">PneumoBot Assistant</span>
+                    <span class="bot-sub">IA Radiológica Conversacional</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-toggle-bot" onclick="toggleBotCollapse()">
+                  <svg id="botCollapseIcon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+              </div>
+
+              <!-- CHAT BODY -->
+              <div class="bot-body" id="botBody">
+                <div class="chat-messages" id="chatMessages">
+                  <div class="bot-msg">
+                    <p>Hola Dr. Arismendi. He detectado una opacidad densa con broncograma en el <strong>lóbulo inferior derecho</strong> compatible con neumonía lobar bacteriana (94.2%). ¿Desea correlación con antecedentes o resumen para el informe?</p>
+                  </div>
+                </div>
+
+                <!-- PREGUNTAS RÁPIDAS -->
+                <div class="quick-questions">
+                  <button type="button" class="quick-btn" onclick="askBot('¿Hay evidencia de derrame pleural asociado?')">¿Derrame pleural?</button>
+                  <button type="button" class="quick-btn" onclick="askBot('Explica la activación térmica del Grad-CAM')">Explicar Grad-CAM</button>
+                  <button type="button" class="quick-btn" onclick="askBot('Generar resumen clínico para el informe')">Borrador de conclusión</button>
+                </div>
+
+                <!-- INPUT CHAT -->
+                <form class="bot-input-row" onsubmit="handleSendBot(event)">
+                  <input type="text" id="botInput" placeholder="Pregunte sobre la radiografía..." autocomplete="off">
+                  <button type="submit" class="btn-send-bot">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+          </aside>
+
+        </div>
+
+      </main>
+
+      <!-- BARRA DE CUMPLIMIENTO -->
+      <footer class="app-legal-footer">
+        <div class="legal-left">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>Herramienta de apoyo diagnóstico radiológico. Certificación MDR Class IIa.</span>
+        </div>
+        <div class="legal-right">
+          <span>DICOM 3.0 PS 3.20</span>
+          <span class="divider">|</span>
+          <span>HL7 FHIR Sincronizado</span>
+          <span class="divider">|</span>
+          <span>&copy; 2025 PneumoVision AI</span>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL DE CONFIRMACIÓN: VALIDAR Y FIRMAR ESTUDIO -->
+  <div class="sign-modal-backdrop" id="signModal" hidden>
+    <div class="sign-modal-card">
+      <div class="sign-modal-head">
+        <div class="sign-icon-circle">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#10b981" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <div>
+          <h3>Firma Digital y Validación del Radiólogo</h3>
+          <p>Estudio Radiológico AN-9842 (PX-0142)</p>
+        </div>
+      </div>
+
+      <div class="sign-modal-body">
+        <div class="doctor-badge-box">
+          <div class="badge-avatar">DA</div>
+          <div class="badge-text">
+            <strong>Dr. Arismendi</strong>
+            <span>Especialista en Radiodiagnóstico y Tórax</span>
+            <span class="col-num">Colegiado Oficial N° 280914</span>
+          </div>
+        </div>
+
+        <div class="sign-hash-box">
+          <span class="hash-label">Firma Criptográfica SHA-256:</span>
+          <code class="hash-code">7fa8d4ef82de19b5c301ae4f88219cc902318e82b884fe</code>
+        </div>
+
+        <p class="sign-notice">
+          Al confirmar, el estudio quedará registrado como validado en el repositorio PACS institucional y se generará el sello digital para el reporte oficial.
+        </p>
+      </div>
+
+      <div class="sign-modal-actions">
+        <button type="button" class="btn-cancel-sign" onclick="closeSignModal()">Cancelar</button>
+        <button type="button" class="btn-confirm-sign" onclick="confirmSignature()">Confirmar Firma Electrónica</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Variables de control de Canvas
+    let currentZoom = 1.0;
+
+    function updateOpacity(val) {
+      document.getElementById('opacityDisplay').textContent = val + '%';
+      document.getElementById('gradcamLayer').style.opacity = (val / 100);
+    }
+
+    function toggleRoiLayer(checkbox) {
+      const roiLayer = document.getElementById('roiLayer');
+      roiLayer.style.display = checkbox.checked ? 'block' : 'none';
+      document.getElementById('toggleRoiLabel').classList.toggle('active', checkbox.checked);
+    }
+
+    function toggleGradcamLayer(checkbox) {
+      const gradcamLayer = document.getElementById('gradcamLayer');
+      gradcamLayer.style.display = checkbox.checked ? 'block' : 'none';
+      document.getElementById('toggleGradcamLabel').classList.toggle('active', checkbox.checked);
+    }
+
+    function applyWindowPreset(preset) {
+      const baseImg = document.getElementById('baseImg');
+      const windowText = document.getElementById('windowInfoText');
+
+      baseImg.style.filter = '';
+      if (preset === 'lung') {
+        baseImg.style.filter = 'contrast(120%) brightness(100%)';
+        windowText.textContent = 'W: 1500 L: -600 (PULMONAR)';
+      } else if (preset === 'mediastinum') {
+        baseImg.style.filter = 'contrast(160%) brightness(85%)';
+        windowText.textContent = 'W: 350 L: 50 (MEDIASTINO)';
+      } else if (preset === 'bone') {
+        baseImg.style.filter = 'contrast(190%) brightness(125%)';
+        windowText.textContent = 'W: 2000 L: 300 (ÓSEO)';
+      } else if (preset === 'invert') {
+        baseImg.style.filter = 'invert(100%)';
+        windowText.textContent = 'ESCALA INVERTIDA';
+      }
+    }
+
+    function adjustZoom(delta) {
+      currentZoom = Math.max(0.6, Math.min(2.5, currentZoom + delta));
+      document.getElementById('canvasStage').style.transform = `scale(${currentZoom})`;
+      document.getElementById('zoomInfoText').textContent = `ZOOM: ${Math.round(currentZoom * 100)}%`;
+    }
+
+    function resetCanvasTransform() {
+      currentZoom = 1.0;
+      document.getElementById('canvasStage').style.transform = 'scale(1)';
+      document.getElementById('zoomInfoText').textContent = 'ZOOM: 100%';
+    }
+
+    function toggleMeasureTool() {
+      alert('Herramienta de Caliper de medición: Haga clic en dos puntos del tórax para medir la distancia en milímetros calibrados (0.143 mm/px).');
+    }
+
+    // Modal de Firma
+    function openSignModal() {
+      document.getElementById('signModal').hidden = false;
+    }
+
+    function closeSignModal() {
+      document.getElementById('signModal').hidden = true;
+    }
+
+    function confirmSignature() {
+      closeSignModal();
+      const btn = document.getElementById('btnValidate');
+      btn.style.background = '#15803d';
+      btn.style.color = '#ffffff';
+      document.getElementById('validateBtnLabel').textContent = 'Estudio Validado y Firmado';
+      alert('Estudio AN-9842 firmado con éxito por el Dr. Arismendi. Sincronizado con PACS.');
+    }
+
+    // Widget PneumoBot
+    function toggleBotCollapse() {
+      const body = document.getElementById('botBody');
+      const icon = document.getElementById('botCollapseIcon');
+      if (body.style.display === 'none') {
+        body.style.display = 'flex';
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        body.style.display = 'none';
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    function askBot(query) {
+      const messages = document.getElementById('chatMessages');
+      messages.innerHTML += `<div class="user-msg"><p>${query}</p></div>`;
+      messages.scrollTop = messages.scrollHeight;
+
+      setTimeout(() => {
+        let reply = "";
+        if (query.includes('derrame')) {
+          reply = "Evaluando ángulos costofrénicos: El receso costofrénico izquierdo está despejado y agudo. El derecho presenta velamiento secundario por el infiltrado basal, sin menisco de derrame pleural libre significativo.";
+        } else if (query.includes('Grad-CAM')) {
+          reply = "El gradiente de retropropagación térmica se concentra en la bifurcación bronquial y alvéolos del lóbulo inferior derecho, con una densidad Hounsfield compatible con ocupación alveolar y broncograma.";
+        } else {
+          reply = "Conclusión sugerida: 'Opacidad alveolar focal en lóbulo inferior derecho compatible con neumonía aguda típica bacteriana (certeza 94.2%). Se sugiere correlación clínica y antibioterapia según protocolo institucional.'";
+        }
+        messages.innerHTML += `<div class="bot-msg"><p>${reply}</p></div>`;
+        messages.scrollTop = messages.scrollHeight;
+      }, 500);
+    }
+
+    function handleSendBot(e) {
+      e.preventDefault();
+      const input = document.getElementById('botInput');
+      const val = input.value.trim();
+      if (!val) return;
+      askBot(val);
+      input.value = '';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PneumoVision AI · Historial de Análisis Radiológicos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="historial.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+          </div>
+          <span class="brand-text">PneumoVision <span class="ai-badge">AI</span></span>
+        </a>
+
+        <div class="sidebar-section-label">ESTACIÓN DE TRABAJO</div>
+
+        <nav class="sidebar-nav">
+          <a href="dashboard.html" class="nav-item">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+          <a href="nuevo-analisis.html" class="nav-item">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <span>Nuevo análisis</span>
+          </a>
+          <a href="historial.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 3"/></svg>
+            <span>Historial</span>
+          </a>
+          <a href="#" class="nav-item" onclick="alert('Módulo de perfil'); return false;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Perfil</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+          </div>
+          <div class="status-info">
+            <span class="status-title">Motor de Inferencia</span>
+            <span class="status-sub">PACS v4.2 Conectado</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- WRAPPER PRINCIPAL -->
+    <div class="main-wrapper">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="pulse-symbol">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#34d399" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+          </span>
+          <div class="console-title">
+            <span class="title-primary">CONSOLA RADIOLÓGICA</span>
+            <span class="title-secondary">Entorno Diagnóstico DICOM</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="online-pill">
+            <span class="green-indicator"></span>
+            <span>Activo</span>
+          </div>
+
+          <div class="user-profile">
+            <div class="user-avatar">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="user-meta">
+              <span class="user-name">Dr. Arismendi</span>
+              <span class="user-role">Radiólogo Clínico</span>
+            </div>
+          </div>
+
+          <a href="LoginFace.html" class="logout-btn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Cerrar sesión</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- CONTENIDO DE HISTORIAL -->
+      <main class="historial-content">
+
+        <!-- CARD CONTENEDORA BLANCA PRINCIPAL (COMO EN IMAGEN 1) -->
+        <div class="historial-main-card">
+          
+          <!-- SUB-CABECERA DEL HISTORIAL -->
+          <div class="historial-header-row">
+            <div class="historial-titles">
+              <div class="history-category-label">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                <span>MODALIDAD DICOM CXR // HISTORIAL CLÍNICO</span>
+              </div>
+              <h1 class="historial-title">Historial de análisis</h1>
+              <p class="historial-sub">Registro cronológico de estudios radiológicos evaluados por el modelo de visión artificial.</p>
+            </div>
+
+            <div class="header-pacs-sync">
+              <span class="pacs-sync-dot"></span>
+              <span>PACS Archive: Sincronizado</span>
+            </div>
+          </div>
+
+          <!-- BARRA DE BÚSQUEDA Y FILTROS -->
+          <div class="filters-toolbar">
+            
+            <!-- Buscador -->
+            <div class="search-field-box">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="historialSearch" placeholder="Buscar por ID de paciente o análisis..." oninput="handleHistorialSearch()">
+            </div>
+
+            <!-- Filtro 1: Rango de Fechas -->
+            <div class="filter-select-pill">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <select id="dateFilter" onchange="applyFilters()">
+                <option value="all">Todos los reg...</option>
+                <option value="today">Hoy</option>
+                <option value="week">Últimos 7 días</option>
+                <option value="month">Este mes</option>
+              </select>
+            </div>
+
+            <!-- Filtro 2: Resultado AI -->
+            <div class="filter-select-pill">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <select id="resultFilter" onchange="applyFilters()">
+                <option value="all">Resu...</option>
+                <option value="pneumonia">Patrón compatible</option>
+                <option value="normal">Normal</option>
+                <option value="infiltrate">Infiltrado</option>
+              </select>
+            </div>
+
+            <!-- Filtro 3: Nivel de Riesgo -->
+            <div class="filter-select-pill">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <select id="riskLevelFilter" onchange="applyFilters()">
+                <option value="all">Ries...</option>
+                <option value="high">Alto Riesgo</option>
+                <option value="medium">Medio Riesgo</option>
+                <option value="low">Bajo Riesgo</option>
+              </select>
+            </div>
+
+            <!-- Contador de Estudios -->
+            <div class="count-badge" id="studiesCountBadge">
+              0 estudios encontrados
+            </div>
+
+            <!-- BOTÓN DE CONMUTACIÓN DE ESTADO (EMPTY STATE / CON DATOS) -->
+            <button type="button" class="btn-toggle-state" id="toggleStateBtn" onclick="toggleHistorialState()">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span id="stateBtnLabel">Ver: Estado con Datos</span>
+            </button>
+
+            <!-- Exportación Masiva (CSV / DICOM) -->
+            <div class="bulk-export-group" id="bulkExportGroup" hidden>
+              <button type="button" class="btn-bulk-export" onclick="exportBulkCSV()">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Exportar CSV</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ========================================================
+               ESTADO VACÍO (EMPTY STATE ONBOARDING) - EXACTO A IMAGEN 1
+               ======================================================== -->
+          <div class="empty-state-view" id="emptyStateSection">
+            
+            <!-- FONDO DE LÍNEAS RADAR CONCÉNTRICAS TENUES -->
+            <div class="radar-bg-lines" aria-hidden="true">
+              <div class="radar-circle circle-1"></div>
+              <div class="radar-circle circle-2"></div>
+              <div class="radar-circle circle-3"></div>
+              <div class="radar-crosshair-h"></div>
+              <div class="radar-crosshair-v"></div>
+            </div>
+
+            <!-- CONTENIDO CENTRAL DEL EMPTY STATE -->
+            <div class="empty-state-card-content">
+              
+              <!-- ÍCONO CENTRAL CON BADGE CXR -->
+              <div class="empty-icon-wrapper">
+                <span class="cxr-tag-pill">CXR</span>
+                <div class="cxr-scanner-box">
+                  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#475569" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="3" stroke-dasharray="4 2"/>
+                    <path d="M8 8 C10 10 10 14 8 16"/>
+                    <path d="M16 8 C14 10 14 14 16 16"/>
+                    <line x1="12" y1="7" x2="12" y2="17"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- TEXTO PRINCIPAL -->
+              <h2 class="empty-heading">Aún no hay análisis. Sube tu primera radiografía</h2>
+              <p class="empty-paragraph">
+                Los estudios de tórax que cargues y proceses con el modelo de inferencia aparecerán registrados aquí de forma automática con su clasificación, mapas Grad-CAM y nivel de riesgo.
+              </p>
+
+              <!-- BOTÓN CTA "NUEVO ANÁLISIS" -->
+              <a href="nuevo-analisis.html" class="empty-cta-button">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+                <span>Nuevo análisis</span>
+              </a>
+
+              <!-- SEPARADOR: FLUJO DE TRABAJO -->
+              <div class="workflow-divider">
+                <span class="workflow-title-text">FLUJO DE TRABAJO DE DIAGNÓSTICO ASISTIDO</span>
+              </div>
+
+              <!-- 3 PASOS EXPLICATIVOS DEL ONBOARDING -->
+              <div class="steps-grid-3">
+                
+                <!-- Paso 1 -->
+                <div class="step-card-onboarding">
+                  <div class="step-badge-row">
+                    <span class="step-number-pill">1</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  </div>
+                  <h3 class="step-card-title">1. Carga estudio DICOM o imagen CXR</h3>
+                  <p class="step-card-desc">Compatible con formato DICOM nativo, PNG y JPG de tórax anteroposterior.</p>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="step-card-onboarding">
+                  <div class="step-badge-row">
+                    <span class="step-number-pill">2</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  </div>
+                  <h3 class="step-card-title">2. Procesamiento con PneumoNet-v4</h3>
+                  <p class="step-card-desc">Detección de patrones de consolidación, derrame y opacidades en &lt; 2.4s.</p>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="step-card-onboarding">
+                  <div class="step-badge-row">
+                    <span class="step-number-pill">3</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#94a3b8" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                  </div>
+                  <h3 class="step-card-title">3. Obtén mapas de calor y reporte</h3>
+                  <p class="step-card-desc">Capas Grad-CAM superpuestas y estratificación probabilística exportable.</p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- ========================================================
+               ESTADO CON DATOS (TABLA PAGINADA COMPLETA)
+               ======================================================== -->
+          <div class="populated-state-view" id="populatedStateSection" hidden>
+            <div class="table-responsive">
+              <table class="historial-table" id="historialDataTable">
+                <thead>
+                  <tr>
+                    <th>RADIOGRAFÍA</th>
+                    <th>ID DE ESTUDIO</th>
+                    <th>PACIENTE</th>
+                    <th>MODALIDAD</th>
+                    <th>FECHA REGISTRO</th>
+                    <th>CLASIFICACIÓN AI</th>
+                    <th>RIESGO CLÍNICO</th>
+                    <th style="text-align: right;">ACCIONES</th>
+                  </tr>
+                </thead>
+                <tbody id="historialTableBody">
+                  
+                  <tr data-risk="high">
+                    <td>
+                      <div class="cxr-thumb-historial">
+                        <img src="../Public/cxr_chest.svg" alt="CXR Preview" width="36" height="36">
+                      </div>
+                    </td>
+                    <td class="id-cell"><strong>AN-9842</strong></td>
+                    <td class="patient-cell">PX-0142 (M, 58a)</td>
+                    <td>CXR PA Digital</td>
+                    <td>15 Oct 2023, 10:42</td>
+                    <td class="finding-cell">Patrón compatible con neumonía</td>
+                    <td>
+                      <span class="risk-pill pill-red">
+                        <span class="dot"></span>
+                        Alto riesgo (94%)
+                      </span>
+                    </td>
+                    <td style="text-align: right;">
+                      <a href="visor.html?id=AN-9842" class="btn-table-action">Ver análisis</a>
+                    </td>
+                  </tr>
+
+                  <tr data-risk="low">
+                    <td>
+                      <div class="cxr-thumb-historial">
+                        <img src="../Public/cxr_chest.svg" alt="CXR Preview" width="36" height="36">
+                      </div>
+                    </td>
+                    <td class="id-cell"><strong>AN-9841</strong></td>
+                    <td class="patient-cell">PX-0141 (F, 42a)</td>
+                    <td>CXR PA Digital</td>
+                    <td>15 Oct 2023, 09:15</td>
+                    <td class="finding-cell">Sin hallazgos patológicos (Normal)</td>
+                    <td>
+                      <span class="risk-pill pill-green">
+                        <span class="dot"></span>
+                        Bajo riesgo (2%)
+                      </span>
+                    </td>
+                    <td style="text-align: right;">
+                      <a href="visor.html?id=AN-9841" class="btn-table-action">Ver análisis</a>
+                    </td>
+                  </tr>
+
+                  <tr data-risk="medium">
+                    <td>
+                      <div class="cxr-thumb-historial">
+                        <img src="../Public/cxr_chest.svg" alt="CXR Preview" width="36" height="36">
+                      </div>
+                    </td>
+                    <td class="id-cell"><strong>AN-9840</strong></td>
+                    <td class="patient-cell">PX-0139 (M, 71a)</td>
+                    <td>CXR AP Portátil</td>
+                    <td>14 Oct 2023, 17:30</td>
+                    <td class="finding-cell">Infiltrado focal dudoso basal</td>
+                    <td>
+                      <span class="risk-pill pill-amber">
+                        <span class="dot"></span>
+                        Medio riesgo (48%)
+                      </span>
+                    </td>
+                    <td style="text-align: right;">
+                      <a href="visor.html?id=AN-9840" class="btn-table-action">Ver análisis</a>
+                    </td>
+                  </tr>
+
+                  <tr data-risk="low">
+                    <td>
+                      <div class="cxr-thumb-historial">
+                        <img src="../Public/cxr_chest.svg" alt="CXR Preview" width="36" height="36">
+                      </div>
+                    </td>
+                    <td class="id-cell"><strong>AN-9839</strong></td>
+                    <td class="patient-cell">PX-0138 (F, 33a)</td>
+                    <td>CXR PA Digital</td>
+                    <td>14 Oct 2023, 16:05</td>
+                    <td class="finding-cell">Sin hallazgos patológicos (Normal)</td>
+                    <td>
+                      <span class="risk-pill pill-green">
+                        <span class="dot"></span>
+                        Bajo riesgo (1%)
+                      </span>
+                    </td>
+                    <td style="text-align: right;">
+                      <a href="visor.html?id=AN-9839" class="btn-table-action">Ver análisis</a>
+                    </td>
+                  </tr>
+
+                  <tr data-risk="high">
+                    <td>
+                      <div class="cxr-thumb-historial">
+                        <img src="../Public/cxr_chest.svg" alt="CXR Preview" width="36" height="36">
+                      </div>
+                    </td>
+                    <td class="id-cell"><strong>AN-9838</strong></td>
+                    <td class="patient-cell">PX-0135 (M, 66a)</td>
+                    <td>CXR PA Digital</td>
+                    <td>14 Oct 2023, 14:20</td>
+                    <td class="finding-cell">Consolidación lobar bacteriana</td>
+                    <td>
+                      <span class="risk-pill pill-red">
+                        <span class="dot"></span>
+                        Alto riesgo (89%)
+                      </span>
+                    </td>
+                    <td style="text-align: right;">
+                      <a href="visor.html?id=AN-9838" class="btn-table-action">Ver análisis</a>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- FOOTER DE NAVEGACIÓN Y PAGINACIÓN -->
+          <div class="historial-footer-bar">
+            <span class="footer-count-text" id="footerCountText">Mostrando 0 de 0 análisis</span>
+            
+            <div class="pagination-buttons-group">
+              <button type="button" class="historial-page-btn" id="btnPrev" disabled>&lt; Anterior</button>
+              <span class="historial-page-indicator" id="pageIndicatorText">Página 0 / 0</span>
+              <button type="button" class="historial-page-btn" id="btnNext" disabled>Siguiente &gt;</button>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+      <!-- BARRA DE CUMPLIMIENTO -->
+      <footer class="app-legal-footer">
+        <div class="legal-left">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>Herramienta de apoyo. No sustituye la evaluación de un profesional de la salud.</span>
+        </div>
+        <div class="legal-right">
+          <span>CE MDD Class IIa</span>
+          <span class="divider">|</span>
+          <span>DICOM 3.0 Compliant</span>
+          <span class="divider">|</span>
+          <span>&copy; 2025 PneumoVision AI</span>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <script>
+    let isDataState = false;
+
+    function toggleHistorialState() {
+      isDataState = !isDataState;
+      const emptySec = document.getElementById('emptyStateSection');
+      const popSec = document.getElementById('populatedStateSection');
+      const countBadge = document.getElementById('studiesCountBadge');
+      const stateBtnLabel = document.getElementById('stateBtnLabel');
+      const bulkExport = document.getElementById('bulkExportGroup');
+      const footerCount = document.getElementById('footerCountText');
+      const pageIndicator = document.getElementById('pageIndicatorText');
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+
+      if (isDataState) {
+        emptySec.hidden = true;
+        popSec.hidden = false;
+        bulkExport.hidden = false;
+        countBadge.textContent = "5 de 1,248 estudios encontrados";
+        stateBtnLabel.textContent = "Ver: Estado Vacío (Empty State)";
+        footerCount.textContent = "Mostrando 5 de 1,248 análisis";
+        pageIndicator.textContent = "Página 1 / 250";
+        btnPrev.disabled = true;
+        btnNext.disabled = false;
+      } else {
+        emptySec.hidden = false;
+        popSec.hidden = true;
+        bulkExport.hidden = true;
+        countBadge.textContent = "0 estudios encontrados";
+        stateBtnLabel.textContent = "Ver: Estado con Datos";
+        footerCount.textContent = "Mostrando 0 de 0 análisis";
+        pageIndicator.textContent = "Página 0 / 0";
+        btnPrev.disabled = true;
+        btnNext.disabled = true;
+      }
+    }
+
+    function handleHistorialSearch() {
+      if (!isDataState) toggleHistorialState();
+      applyFilters();
+    }
+
+    function applyFilters() {
+      if (!isDataState) return;
+      const search = document.getElementById('historialSearch').value.toLowerCase();
+      const risk = document.getElementById('riskLevelFilter').value;
+      const rows = document.querySelectorAll('#historialTableBody tr');
+
+      let visible = 0;
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const rRisk = row.getAttribute('data-risk');
+        const matchesSearch = text.includes(search);
+        const matchesRisk = (risk === 'all' || rRisk === risk);
+
+        if (matchesSearch && matchesRisk) {
+          row.style.display = '';
+          visible++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      document.getElementById('studiesCountBadge').textContent = `${visible} estudios encontrados`;
+      document.getElementById('footerCountText').textContent = `Mostrando ${visible} de 1,248 análisis`;
+    }
+
+    function exportBulkCSV() {
+      alert('Exportando registro completo de 1,248 estudios radiológicos en formato CSV con metadatos DICOM...');
+    }
+  </script>
+</body>
+</html>

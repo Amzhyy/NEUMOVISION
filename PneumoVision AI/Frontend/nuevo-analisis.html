@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PneumoVision AI · Nuevo Análisis Diagnóstico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nuevo-analisis.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <a href="dashboard.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+          </div>
+          <span class="brand-text">PneumoVision <span class="ai-badge">AI</span></span>
+        </a>
+
+        <div class="sidebar-section-label">ESTACIÓN DE TRABAJO</div>
+
+        <nav class="sidebar-nav">
+          <a href="dashboard.html" class="nav-item">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+          <a href="nuevo-analisis.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            <span>Nuevo análisis</span>
+          </a>
+          <a href="historial.html" class="nav-item">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 3"/></svg>
+            <span>Historial</span>
+          </a>
+          <a href="#" class="nav-item" onclick="alert('Módulo de perfil'); return false;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Perfil</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+          </div>
+          <div class="status-info">
+            <span class="status-title">Motor de Inferencia</span>
+            <span class="status-sub">PACS v4.2 Conectado</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- WRAPPER PRINCIPAL -->
+    <div class="main-wrapper">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="pulse-symbol">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#34d399" stroke-width="2"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+          </span>
+          <div class="console-title">
+            <span class="title-primary">CONSOLA RADIOLÓGICA</span>
+            <span class="title-secondary">Entorno Diagnóstico DICOM</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="online-pill">
+            <span class="green-indicator"></span>
+            <span>Activo</span>
+          </div>
+
+          <div class="user-profile">
+            <div class="user-avatar">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="user-meta">
+              <span class="user-name">Dr. Arismendi</span>
+              <span class="user-role">Radiólogo Clínico</span>
+            </div>
+          </div>
+
+          <a href="LoginFace.html" class="logout-btn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Cerrar sesión</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- CONTENIDO DE CARGA -->
+      <main class="page-content">
+
+        <!-- CABECERA DEL ESTUDIO -->
+        <div class="study-header-bar">
+          <div class="header-left-col">
+            <div class="pipeline-tag">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>FLUJO DE DIAGNÓSTICO ASISTIDO • VERSIÓN PIPELINE 4.2</span>
+            </div>
+            <h1 class="page-title">Nuevo análisis diagnóstico</h1>
+            <p class="page-subtitle">Cargue un estudio radiológico de tórax (PA / AP) para evaluación automatizada y detección de patrones de neumonía.</p>
+          </div>
+
+          <div class="protocol-badge">
+            <div class="protocol-dot"></div>
+            <div class="protocol-texts">
+              <span class="protocol-title">PROTOCOLO RÁPIDO CXR</span>
+              <span class="protocol-sub">Inferencia local DICOM v3.0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRID DE 2 COLUMNAS: VISOR/CARGA Y METADATOS -->
+        <div class="analysis-grid">
+
+          <!-- COLUMNA IZQUIERDA: RADIOGRAFÍA DE TÓRAX -->
+          <div class="analysis-card">
+            <div class="card-top-row">
+              <div class="card-title-group">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <h2>Radiografía de tórax</h2>
+              </div>
+              <span class="loaded-badge" id="studyStatusBadge">
+                <span class="badge-dot"></span>
+                Estudio cargado
+              </span>
+            </div>
+
+            <!-- CONTENEDOR DEL CANVAS / VISOR RADIOLÓGICO -->
+            <div class="dicom-canvas-container" id="dicomCanvas">
+              <img src="../Public/cxr_chest.svg" alt="Radiografía cargada" class="canvas-image" id="previewImg">
+
+              <!-- BARRA DE HERRAMIENTAS FLOTANTE DEL VISOR -->
+              <div class="canvas-floating-toolbar">
+                <button type="button" class="tool-btn" title="Ajuste de contraste / ventaneo" onclick="toggleContrast()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20Z" fill="currentColor"/></svg>
+                </button>
+                <button type="button" class="tool-btn" title="Centrar / expandir" onclick="resetView()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+                </button>
+                <button type="button" class="tool-btn" title="Zoom" onclick="zoomView()">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- FILA DEL ARCHIVO CARGADO -->
+            <div class="loaded-file-row" id="loadedFileBox">
+              <div class="file-icon-box">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="file-details">
+                <span class="file-name" id="fileNameText">CXR_PA_20231015_0042.dcm</span>
+                <span class="file-meta" id="fileMetaText">14.8 MB • DICOM 3.0 • 2048 x 2048 px</span>
+              </div>
+              <button type="button" class="btn-remove-file" onclick="removeStudy()">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                <span>Quitar</span>
+              </button>
+            </div>
+
+            <!-- ZONA DRAG & DROP -->
+            <div class="dropzone-area" id="dropArea" onclick="document.getElementById('fileInput').click()">
+              <input type="file" id="fileInput" accept=".dcm,.png,.jpg,.jpeg" hidden onchange="handleFileSelect(event)">
+              <div class="drop-icon">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <span class="drop-primary-text">Arrastra una radiografía o haz clic para seleccionarla</span>
+              <span class="drop-formats-text">Formatos soportados: PNG, JPG, DICOM (hasta 50 MB)</span>
+            </div>
+
+          </div>
+
+          <!-- COLUMNA DERECHA: METADATOS Y EJECUCIÓN -->
+          <div class="analysis-card">
+            <div class="card-top-row">
+              <div class="card-title-group">
+                <h2>Metadatos del estudio (Opcional)</h2>
+              </div>
+              <span class="phase-pill">FASE 1/2</span>
+            </div>
+
+            <form class="metadata-form" id="analysisForm" onsubmit="startPipeline(event)">
+              
+              <!-- CAMPO: ID DE PACIENTE -->
+              <div class="form-item">
+                <div class="item-label-row">
+                  <label for="patientIdInput">ID de paciente (desidentificado)</label>
+                  <span class="hipaa-tag">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#059669" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Cumple HIPAA / RGPD
+                  </span>
+                </div>
+                <input type="text" id="patientIdInput" class="custom-input" value="PX-0143" placeholder="ej. PX-0143">
+                <span class="item-helper-text">No introduzca nombres, DNI ni datos personales directos.</span>
+              </div>
+
+              <!-- CAMPO: TIPO DE PROYECCIÓN -->
+              <div class="form-item">
+                <label for="projectionSelect">Tipo de proyección</label>
+                <div class="select-wrapper">
+                  <select id="projectionSelect" class="custom-select">
+                    <option value="PA" selected>PA (Posteroanterior) - Recomendada</option>
+                    <option value="AP">AP (Anteroposterior) - Portátil</option>
+                    <option value="LAT">Lateral (Izquierda / Derecha)</option>
+                  </select>
+                </div>
+                <span class="item-helper-text">Alineación estándar de referencia clínica para segmentación torácica.</span>
+              </div>
+
+              <!-- CAMPO: NOTAS CLÍNICAS -->
+              <div class="form-item">
+                <label for="clinicalNotes">Notas clínicas</label>
+                <textarea id="clinicalNotes" class="custom-textarea" rows="4" maxlength="500" oninput="updateCharCount(this)">Paciente de 62 años acude a urgencias con fiebre de 38.8°C, tos productiva y saturación al 91%. Auscultación con crepitantes basales derechos.</textarea>
+                <div class="char-count-row">
+                  <span id="charCount">137 caracteres</span>
+                </div>
+              </div>
+
+              <!-- CALIBRACIÓN DE INFERENCIA -->
+              <div class="calibration-box">
+                <div class="calib-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#10b981" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </div>
+                <div class="calib-text">
+                  <span class="calib-title">CALIBRACIÓN DE INFERENCIA</span>
+                  <span class="calib-model">Modelo activo: PneumoNet-v4.2 (ResNet-152 + Grad-CAM)</span>
+                  <span class="calib-time">Tiempo estimado de procesamiento: ~1.8 segundos</span>
+                </div>
+              </div>
+
+              <!-- BOTONES DE ACCIÓN -->
+              <div class="form-actions-row">
+                <button type="submit" class="btn-execute">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>Ejecutar análisis</span>
+                </button>
+                <a href="dashboard.html" class="btn-cancel">Cancelar</a>
+              </div>
+
+            </form>
+
+            <!-- PILLS INFERIORES DE TELEMETRÍA -->
+            <div class="telemetry-pills">
+              <div class="telemetry-pill">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                <span>LATENCIA &lt; 2000 ms</span>
+              </div>
+              <div class="telemetry-pill">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>CIFRADO PACS TLS 1.3 / AES-256</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+      <!-- BARRA DE CUMPLIMIENTO -->
+      <footer class="app-legal-footer">
+        <div class="legal-left">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>Herramienta de apoyo. No sustituye la evaluación de un profesional de la salud.</span>
+        </div>
+        <div class="legal-right">
+          <span>CE MDD Class IIa</span>
+          <span class="divider">|</span>
+          <span>DICOM 3.0 Compliant</span>
+          <span class="divider">|</span>
+          <span>&copy; 2025 PneumoVision AI</span>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- ========================================================
+       PASO 2: MODAL PIPELINE EN TIEMPO REAL (STEPPER DE 4 FASES)
+       ======================================================== -->
+  <div class="pipeline-modal-backdrop" id="pipelineModal" hidden>
+    <div class="pipeline-modal-card">
+      <div class="pipeline-head">
+        <div class="pipeline-title-group">
+          <div class="pipeline-pulse-circle">
+            <span class="pulse-ring"></span>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#34d399" stroke-width="2.5"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+          </div>
+          <div>
+            <h3 class="pipeline-h3">Pipeline de Inferencia Neuronal en Tiempo Real</h3>
+            <p class="pipeline-p">Procesando estudio radiológico con PneumoNet-v4.2...</p>
+          </div>
+        </div>
+        <span class="pipeline-timer" id="pipelineTimer">0.0s</span>
+      </div>
+
+      <!-- BARRA DE PROGRESO ACUMULADO (0% A 100%) -->
+      <div class="progress-section">
+        <div class="progress-info-row">
+          <span class="progress-phase-label" id="currentPhaseLabel">Iniciando preprocesamiento DICOM...</span>
+          <span class="progress-percent" id="progressPercent">0%</span>
+        </div>
+        <div class="pipeline-track">
+          <div class="pipeline-fill-bar" id="pipelineFillBar" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- STEPPER CON 4 FASES -->
+      <div class="stepper-grid">
+        
+        <!-- Fase 1: Preprocesamiento -->
+        <div class="step-box active" id="step1">
+          <div class="step-status-icon">
+            <div class="spinner-small" id="spin1"></div>
+            <svg class="check-small" id="check1" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10b981" stroke-width="3" hidden><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="step-text">
+            <span class="step-name">1. Preprocesamiento</span>
+            <span class="step-desc">Normalización CLAHE y recorte de parrilla costal</span>
+          </div>
+        </div>
+
+        <!-- Fase 2: Clasificación -->
+        <div class="step-box pending" id="step2">
+          <div class="step-status-icon">
+            <div class="spinner-small" id="spin2" hidden></div>
+            <svg class="check-small" id="check2" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10b981" stroke-width="3" hidden><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="step-text">
+            <span class="step-name">2. Clasificación</span>
+            <span class="step-desc">Ensemble ResNet-152 y red convolucional</span>
+          </div>
+        </div>
+
+        <!-- Fase 3: Localización -->
+        <div class="step-box pending" id="step3">
+          <div class="step-status-icon">
+            <div class="spinner-small" id="spin3" hidden></div>
+            <svg class="check-small" id="check3" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10b981" stroke-width="3" hidden><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="step-text">
+            <span class="step-name">3. Localización</span>
+            <span class="step-desc">Mapa de calor Grad-CAM y bounding boxes ROI</span>
+          </div>
+        </div>
+
+        <!-- Fase 4: Explicación -->
+        <div class="step-box pending" id="step4">
+          <div class="step-status-icon">
+            <div class="spinner-small" id="spin4" hidden></div>
+            <svg class="check-small" id="check4" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10b981" stroke-width="3" hidden><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="step-text">
+            <span class="step-name">4. Explicación</span>
+            <span class="step-desc">Estratificación clínica y resumen de PneumoBot</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LOG DE TELEMETRÍA EN VIVO -->
+      <div class="pipeline-log-terminal" id="pipelineLog">
+        <div>[0.1s] Estudio recibido: CXR_PA_20231015_0042.dcm (16-bit DICOM)</div>
+      </div>
+
+      <!-- BOTÓN DE CANCELAR INFERENCIA -->
+      <div class="pipeline-actions">
+        <button type="button" class="btn-cancel-pipeline" onclick="cancelPipeline()">Cancelar inferencia</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let pipelineInterval = null;
+    let timerInterval = null;
+
+    function updateCharCount(textarea) {
+      document.getElementById('charCount').textContent = textarea.value.length + " caracteres";
+    }
+
+    function toggleContrast() {
+      const img = document.getElementById('previewImg');
+      img.classList.toggle('high-contrast');
+    }
+
+    function zoomView() {
+      const img = document.getElementById('previewImg');
+      img.classList.toggle('zoomed');
+    }
+
+    function resetView() {
+      const img = document.getElementById('previewImg');
+      img.classList.remove('high-contrast', 'zoomed');
+    }
+
+    function removeStudy() {
+      if (confirm('¿Desea retirar el archivo actual para cargar otro estudio radiológico?')) {
+        document.getElementById('previewImg').src = '';
+        document.getElementById('previewImg').style.display = 'none';
+        document.getElementById('loadedFileBox').style.display = 'none';
+        document.getElementById('studyStatusBadge').innerHTML = '<span class="badge-dot" style="background:#f59e0b"></span> Esperando archivo';
+      }
+    }
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        document.getElementById('fileNameText').textContent = file.name;
+        document.getElementById('fileMetaText').textContent = (file.size / (1024 * 1024)).toFixed(1) + " MB • Estudio CXR";
+        document.getElementById('previewImg').style.display = 'block';
+        document.getElementById('loadedFileBox').style.display = 'flex';
+        document.getElementById('studyStatusBadge').innerHTML = '<span class="badge-dot"></span> Estudio cargado';
+      }
+    }
+
+    // PASO 2: PIPELINE REAL-TIME STEPPER (Preprocesamiento -> Clasificación -> Localización -> Explicación)
+    function startPipeline(event) {
+      event.preventDefault();
+
+      const modal = document.getElementById('pipelineModal');
+      modal.hidden = false;
+
+      let progress = 0;
+      let startTime = Date.now();
+      const fillBar = document.getElementById('pipelineFillBar');
+      const percentText = document.getElementById('progressPercent');
+      const phaseLabel = document.getElementById('currentPhaseLabel');
+      const log = document.getElementById('pipelineLog');
+      const timer = document.getElementById('pipelineTimer');
+
+      timerInterval = setInterval(() => {
+        let elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        timer.textContent = elapsed + "s";
+      }, 100);
+
+      pipelineInterval = setInterval(() => {
+        progress += 4;
+        if (progress > 100) progress = 100;
+
+        fillBar.style.width = progress + '%';
+        percentText.textContent = progress + '%';
+
+        // Fase 1: Preprocesamiento (0% - 25%)
+        if (progress === 12) {
+          log.innerHTML += '<div>[0.3s] Normalización CLAHE completada. Caja torácica aislada.</div>';
+        }
+
+        // Fase 2: Clasificación (26% - 50%)
+        if (progress === 28) {
+          document.getElementById('step1').classList.remove('active');
+          document.getElementById('step1').classList.add('done');
+          document.getElementById('spin1').hidden = true;
+          document.getElementById('check1').hidden = false;
+
+          document.getElementById('step2').classList.remove('pending');
+          document.getElementById('step2').classList.add('active');
+          document.getElementById('spin2').hidden = false;
+          phaseLabel.textContent = "Evaluando matriz convolucional ResNet-152...";
+          log.innerHTML += '<div>[0.7s] Inferencia convolucional: p(neumonía bacteriana) = 94.2%</div>';
+        }
+
+        // Fase 3: Localización (51% - 75%)
+        if (progress === 56) {
+          document.getElementById('step2').classList.remove('active');
+          document.getElementById('step2').classList.add('done');
+          document.getElementById('spin2').hidden = true;
+          document.getElementById('check2').hidden = false;
+
+          document.getElementById('step3').classList.remove('pending');
+          document.getElementById('step3').classList.add('active');
+          document.getElementById('spin3').hidden = false;
+          phaseLabel.textContent = "Generando mapa térmico Grad-CAM y bounding boxes...";
+          log.innerHTML += '<div>[1.2s] Foco activo proyectado en lóbulo inferior derecho. Grad-CAM generado.</div>';
+        }
+
+        // Fase 4: Explicación (76% - 100%)
+        if (progress === 80) {
+          document.getElementById('step3').classList.remove('active');
+          document.getElementById('step3').classList.add('done');
+          document.getElementById('spin3').hidden = true;
+          document.getElementById('check3').hidden = false;
+
+          document.getElementById('step4').classList.remove('pending');
+          document.getElementById('step4').classList.add('active');
+          document.getElementById('spin4').hidden = false;
+          phaseLabel.textContent = "Sintetizando explicación clínica y triaje...";
+          log.innerHTML += '<div>[1.6s] Semáforo de riesgo asignado: 91/100 (Alto Riesgo). Resumen listo.</div>';
+        }
+
+        // Al finalizar la inferencia al 100%: Navegar automáticamente a /visor/:id_analisis
+        if (progress >= 100) {
+          clearInterval(pipelineInterval);
+          clearInterval(timerInterval);
+          document.getElementById('step4').classList.remove('active');
+          document.getElementById('step4').classList.add('done');
+          document.getElementById('spin4').hidden = true;
+          document.getElementById('check4').hidden = false;
+
+          phaseLabel.textContent = "¡Inferencia completada con éxito! Redirigiendo a estación de trabajo...";
+          log.innerHTML += '<div style="color: #34d399;">[1.8s] Análisis ID: AN-9842 sincronizado en memoria. Redirigiendo...</div>';
+
+          setTimeout(() => {
+            window.location.href = 'visor.html?id=AN-9842';
+          }, 600);
+        }
+      }, 70);
+    }
+
+    function cancelPipeline() {
+      if (pipelineInterval) clearInterval(pipelineInterval);
+      if (timerInterval) clearInterval(timerInterval);
+      document.getElementById('pipelineModal').hidden = true;
+    }
+  </script>
+</body>
+</html>

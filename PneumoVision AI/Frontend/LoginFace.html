@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PneumoVision AI · Acceso y Autenticación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="LoginFace.css">
+</head>
+<body>
+  <main class="login">
+
+    <!-- Panel izquierdo: Branding y Aviso Institucional -->
+    <section class="intro">
+      <div class="brand">
+        <span class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+        </span>
+        <span class="brand-name">PneumoVision AI</span>
+      </div>
+
+      <div class="hero">
+        <h1>Apoyo inteligente para el análisis de radiografías de tórax</h1>
+        <p>Detección de patrones compatibles con neumonía mediante visión por computadora, con localización y mapas de calor explicables.</p>
+      </div>
+
+      <div class="notice">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        <p>Herramienta de apoyo. No sustituye la evaluación de un profesional de la salud.</p>
+      </div>
+    </section>
+
+    <!-- Panel derecho: Autenticación Facial y Credenciales -->
+    <section class="access">
+      <div class="access-inner" id="facialView">
+        <header class="access-header">
+          <h2>Acceso por reconocimiento facial</h2>
+          <p>Inicia sesión de forma segura</p>
+        </header>
+
+        <!-- Scanner circular con HUD biométrico -->
+        <div class="scanner" id="scanner">
+          <video id="camera" class="scanner-video" autoplay muted playsinline hidden></video>
+          <div class="scanner-laser" id="scannerLaser" hidden></div>
+          <div class="biometric-mesh" id="biometricMesh" hidden>
+            <div class="point p1"></div><div class="point p2"></div><div class="point p3"></div>
+            <div class="point p4"></div><div class="point p5"></div><div class="point p6"></div>
+          </div>
+          <svg class="scanner-icon" id="scannerIcon" viewBox="0 0 24 24" width="88" height="88" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 8V6a3 3 0 0 1 3-3h2"/>
+            <path d="M16 3h2a3 3 0 0 1 3 3v2"/>
+            <path d="M21 16v2a3 3 0 0 1-3 3h-2"/>
+            <path d="M8 21H6a3 3 0 0 1-3-3v-2"/>
+            <path d="M9 10h.01"/>
+            <path d="M15 10h.01"/>
+            <path d="M9.5 15a3.5 3.5 0 0 0 5 0"/>
+          </svg>
+          <div class="scanner-success-badge" id="successBadge" hidden>
+            <svg viewBox="0 0 24 24" width="60" height="60" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+        </div>
+
+        <p class="scanner-status" id="status" role="status">Coloca tu rostro dentro del marco</p>
+
+        <div class="actions">
+          <button type="button" class="btn-primary" id="startBtn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2"/><path d="M16 4h2a2 2 0 0 1 2 2v2"/><path d="M20 16v2a2 2 0 0 1-2 2h-2"/><path d="M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M9.5 15a3.5 3.5 0 0 0 5 0"/></svg>
+            <span id="btnText">Iniciar reconocimiento</span>
+          </button>
+
+          <button type="button" class="btn-link" id="showCredentialsBtn">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            Ingresar con usuario y contraseña
+          </button>
+        </div>
+      </div>
+
+      <!-- Vista Secundaria: Credenciales Institucionales -->
+      <div class="access-inner credentials-panel" id="credentialsView" hidden>
+        <header class="access-header">
+          <h2>Acceso por credenciales</h2>
+          <p>Autenticación con cuenta hospitalaria</p>
+        </header>
+
+        <form class="auth-form" id="loginForm">
+          <div class="form-group">
+            <label for="userInput">Identificador médico o correo institucional</label>
+            <div class="input-wrapper">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input type="text" id="userInput" value="dr.arismendi@hospitalcentral.org" required placeholder="ej. facultativo@hospital.org" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="passInput">Contraseña de acceso seguro</label>
+            <div class="input-wrapper">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input type="password" id="passInput" value="••••••••••••" required placeholder="Contraseña">
+            </div>
+          </div>
+
+          <div class="form-extra">
+            <label class="remember-label">
+              <input type="checkbox" checked>
+              <span>Recordar sesión en este equipo</span>
+            </label>
+            <a href="#" class="forgot-link">¿Olvidó su clave?</a>
+          </div>
+
+          <button type="submit" class="btn-primary" id="submitCreds">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Iniciar sesión
+          </button>
+
+          <button type="button" class="btn-link" id="showFacialBtn">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8V6a3 3 0 0 1 3-3h2"/><path d="M16 3h2a3 3 0 0 1 3 3v2"/><path d="M21 16v2a3 3 0 0 1-3 3h-2"/><path d="M8 21H6a3 3 0 0 1-3-3v-2"/></svg>
+            Volver a reconocimiento facial
+          </button>
+        </form>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    // Referencias al DOM
+    const scanner = document.getElementById('scanner');
+    const startBtn = document.getElementById('startBtn');
+    const statusText = document.getElementById('status');
+    const btnText = document.getElementById('btnText');
+    const laser = document.getElementById('scannerLaser');
+    const mesh = document.getElementById('biometricMesh');
+    const scannerIcon = document.getElementById('scannerIcon');
+    const successBadge = document.getElementById('successBadge');
+
+    const facialView = document.getElementById('facialView');
+    const credentialsView = document.getElementById('credentialsView');
+    const showCredentialsBtn = document.getElementById('showCredentialsBtn');
+    const showFacialBtn = document.getElementById('showFacialBtn');
+    const loginForm = document.getElementById('loginForm');
+
+    // Alternar entre reconocimiento facial y credenciales
+    showCredentialsBtn.addEventListener('click', () => {
+      facialView.hidden = true;
+      credentialsView.hidden = false;
+    });
+
+    showFacialBtn.addEventListener('click', () => {
+      credentialsView.hidden = true;
+      facialView.hidden = false;
+    });
+
+    // Envío de formulario de credenciales -> Redirige a /dashboard
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitCreds');
+      submitBtn.innerHTML = '<span>Verificando credenciales...</span>';
+      submitBtn.disabled = true;
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 700);
+    });
+
+    // Simulación de Reconocimiento Facial Biométrico -> Redirige a /dashboard
+    startBtn.addEventListener('click', () => {
+      scanner.classList.remove('is-error');
+      scanner.classList.add('is-scanning');
+      laser.hidden = false;
+      mesh.hidden = false;
+      statusText.textContent = "Analizando rasgos biométricos faciales...";
+      statusText.style.color = "#38bdf8";
+      btnText.textContent = "Escaneando...";
+      startBtn.disabled = true;
+
+      // Fase de detección
+      setTimeout(() => {
+        statusText.textContent = "Cotejando identidad con registro hospitalario...";
+      }, 800);
+
+      // Verificación exitosa
+      setTimeout(() => {
+        laser.hidden = true;
+        mesh.hidden = true;
+        scannerIcon.style.display = 'none';
+        successBadge.hidden = false;
+        scanner.classList.remove('is-scanning');
+        scanner.classList.add('is-success');
+        statusText.textContent = "Identidad validada: Dr. Arismendi (Col. 280914)";
+        statusText.style.color = "#34d399";
+        btnText.textContent = "Acceso Concedido";
+
+        // Redirección al Dashboard
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
+      }, 1800);
+    });
+  </script>
+</body>
+</html>

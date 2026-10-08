@@ -4,3 +4,7 @@ __pycache__/
 .idea/
 PneumoVision AI/Reconocimientopy/PythonProject1/Data/modeloEigenFace.yml
 PneumoVision AI/Reconocimientopy/PythonProject1/Data/modeloLBPH.yml
+PneumoVision AI\Reconocimientopy\PythonProject1\Data\Carlos
+PneumoVision AI/Reconocimientopy/PythonProject1/Data/*
+!PneumoVision AI/Reconocimientopy/PythonProject1/Data/modeloLBPH.yml
+!PneumoVision AI/Reconocimientopy/PythonProject1/Data/haarcascade_frontalface_default.xml

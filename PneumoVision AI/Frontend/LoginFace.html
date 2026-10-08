@@ -164,39 +164,112 @@
       }, 700);
     });
 
-    // Simulación de Reconocimiento Facial Biométrico -> Redirige a /dashboard
-    startBtn.addEventListener('click', () => {
+    // Reconocimiento facial REAL: abre la cámara, manda frames al backend (/api/login-face)
+    const video = document.getElementById('camera');
+    const MAX_INTENTOS = 8;       // cuántos frames se prueban antes de rechazar
+    const ESPERA_MS = 600;        // pausa entre intentos
+    let stream = null;
+
+    function detenerCamara() {
+      if (stream) stream.getTracks().forEach(t => t.stop());
+      stream = null;
+      video.srcObject = null;
+      video.hidden = true;
+    }
+
+    function mostrarError(mensaje) {
+      detenerCamara();
+      laser.hidden = true;
+      mesh.hidden = true;
+      scannerIcon.style.display = '';
+      scanner.classList.remove('is-scanning');
+      scanner.classList.add('is-error');
+      statusText.textContent = mensaje;
+      statusText.style.color = "#f87171";
+      btnText.textContent = "Reintentar";
+      startBtn.disabled = false;
+    }
+
+    function capturarFrame() {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      return canvas.toDataURL('image/jpeg', 0.85);
+    }
+
+    startBtn.addEventListener('click', async () => {
       scanner.classList.remove('is-error');
+      startBtn.disabled = true;
+      btnText.textContent = "Iniciando cámara...";
+      statusText.style.color = "#38bdf8";
+      statusText.textContent = "Solicitando acceso a la cámara...";
+
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+      } catch (err) {
+        mostrarError("No se pudo acceder a la cámara. Revisa los permisos del navegador.");
+        return;
+      }
+
+      video.srcObject = stream;
+      video.hidden = false;
+      await video.play();
+      scannerIcon.style.display = 'none';
       scanner.classList.add('is-scanning');
       laser.hidden = false;
       mesh.hidden = false;
-      statusText.textContent = "Analizando rasgos biométricos faciales...";
-      statusText.style.color = "#38bdf8";
       btnText.textContent = "Escaneando...";
-      startBtn.disabled = true;
+      statusText.textContent = "Mira de frente a la cámara...";
 
-      // Fase de detección
-      setTimeout(() => {
-        statusText.textContent = "Cotejando identidad con registro hospitalario...";
-      }, 800);
+      // Pequeña pausa para que la cámara ajuste exposición
+      await new Promise(r => setTimeout(r, 800));
 
-      // Verificación exitosa
-      setTimeout(() => {
-        laser.hidden = true;
-        mesh.hidden = true;
-        scannerIcon.style.display = 'none';
-        successBadge.hidden = false;
-        scanner.classList.remove('is-scanning');
-        scanner.classList.add('is-success');
-        statusText.textContent = "Identidad validada: Dr. Arismendi (Col. 280914)";
-        statusText.style.color = "#34d399";
-        btnText.textContent = "Acceso Concedido";
+      let ultimaRazon = '';
+      for (let i = 0; i < MAX_INTENTOS; i++) {
+        let data;
+        try {
+          const resp = await fetch('/api/login-face', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: capturarFrame() })
+          });
+          data = await resp.json();
+        } catch (err) {
+          mostrarError("No se pudo conectar con el servidor. ¿Está corriendo main.py?");
+          return;
+        }
 
-        // Redirección al Dashboard
-        setTimeout(() => {
-          window.location.href = 'dashboard.html';
-        }, 1000);
-      }, 1800);
+        if (data.reason === 'model_missing') {
+          mostrarError("El servidor no tiene modelo entrenado. Corre entrenamiento.py.");
+          return;
+        }
+
+        if (data.ok) {
+          detenerCamara();
+          laser.hidden = true;
+          mesh.hidden = true;
+          successBadge.hidden = false;
+          scanner.classList.remove('is-scanning');
+          scanner.classList.add('is-success');
+          statusText.textContent = "Identidad validada: " + data.name;
+          statusText.style.color = "#34d399";
+          btnText.textContent = "Acceso Concedido";
+          sessionStorage.setItem('pv_user', data.name);
+          setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+          return;
+        }
+
+        ultimaRazon = data.reason;
+        statusText.textContent = data.reason === 'no_face'
+          ? "No detecto tu rostro. Acércate y mira de frente..."
+          : "Verificando identidad...";
+        await new Promise(r => setTimeout(r, ESPERA_MS));
+      }
+
+      mostrarError(ultimaRazon === 'no_face'
+        ? "No se detectó ningún rostro. Mejora la luz e intenta de nuevo."
+        : "Rostro no reconocido. Acceso denegado.");
     });
   </script>
 </body>
